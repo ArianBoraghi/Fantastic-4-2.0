@@ -25,6 +25,7 @@ body {
   color: #ffffff;
   padding: 1.5rem 2rem;
   border-radius: 8px 8px 0 0;
+  text-align: center;
 }
 
 .header h1 {
@@ -50,7 +51,6 @@ body {
   font-size: 0.9rem;
   font-weight: bold;
   margin-bottom: 2rem;
-  text-align: center;
 }
 
 fieldset {
@@ -106,7 +106,6 @@ legend {
   display: flex;
   align-items: center;
   gap: 10px;
-  border-radius: 4px;
 }
 
 .messages.hidden {
@@ -114,19 +113,15 @@ legend {
 }
 
 .error-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0; /* Förhindrar att ikonen trycks ihop */
-  width: 20px;
-  height: 20px;
-  margin-top: 2px;
+  display: inline-block;
+  color: #d32f2f;
+  flex-shrink: 0;
 }
 
 .error-icon svg {
-  width: 20px;
-  height: 20px;
-  display: block;
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
 }
 
 .form-actions {
