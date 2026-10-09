@@ -125,11 +125,12 @@ function markInvalid(inputElement) {
 function showError(containerId, message, inputElements = []) {
     const errorBox = document.getElementById(containerId);
     
+    // SVG-ikon med röd diamant och VITT utropstecken i mitten
     const svgIcon = `
         <span class="error-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 12l10 10 10-10L12 2zm0 3.8l6.2 6.2-6.2 6.2L5.8 12 12 5.8z"/>
-                <path d="M11 9h2v5h-2zm0 6h2v2h-2z"/>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 12L12 22L22 12L12 2Z" fill="#d32f2f"/>
+                <path d="M12 7V13M12 16V17" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
         </span>`;
 
@@ -142,9 +143,3 @@ function showError(containerId, message, inputElements = []) {
 }
 
 function clearErrors() {
-    document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-    document.querySelectorAll('.messages').forEach(el => {
-        el.classList.add('hidden');
-        el.innerHTML = '';
-    });
-}

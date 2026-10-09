@@ -50,7 +50,7 @@ body {
   font-size: 0.9rem;
   font-weight: bold;
   margin-bottom: 2rem;
-  text-align: center
+  text-align: center;
 }
 
 fieldset {
@@ -106,6 +106,7 @@ legend {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  border-radius: 4px;
 }
 
 .messages.hidden {
@@ -116,15 +117,16 @@ legend {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  color: #d32f2f;
+  flex-shrink: 0; /* Förhindrar att ikonen trycks ihop */
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
 }
 
 .error-icon svg {
   width: 20px;
   height: 20px;
   display: block;
-  fill: currentColor;
 }
 
 .form-actions {
