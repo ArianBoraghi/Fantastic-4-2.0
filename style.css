@@ -1,37 +1,143 @@
-/* Röd ram runt fält med fel */
-.input-error {
-  border: 1.5px solid #d93025 !important;
-  background-color: #fff8f8;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Felmeddelanderuta placerad direkt under sektionen */
-.error-box {
-  background-color: #fdeded;
-  border: 1px solid #f87171;
-  color: #b91c1c;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fcfbfa;
+  color: #000000;
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
+  justify-content: center;
+  padding: 2rem;
 }
 
-.error-box::before {
-  content: "⚠️";
-  font-size: 1rem;
+.wrapper {
+  max-width: 600px;
+  width: 100%;
 }
 
-/* Grön ruta när allt är rätt */
-.success-box {
-  background-color: #edf7ed;
-  border: 1px solid #86efac;
-  color: #166534;
-  padding: 1rem;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  margin-top: 1rem;
+.header {
+  background-color: #1c238b;
+  color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px 8px 0 0;
   text-align: center;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+}
+
+.header p {
+  margin-top: 0.4rem;
+  font-style: italic;
+}
+
+.order-form {
+  background-color: #fffdf8;
+  padding: 2rem;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.info-banner {
+  background-color: #e0e6ff;
+  border: 1px solid #000;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 2rem;
+}
+
+legend {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.fieldset-desc {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.form-field {
+  margin-bottom: 1.25rem;
+}
+
+.form-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-field input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #767676;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+}
+
+.form-field input.is-invalid {
+  border: 2px solid #d32f2f;
+}
+
+.messages {
+  background-color: #fdeaea;
+  border: 1px solid #d32f2f;
+  color: #d32f2f;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.messages.hidden {
+  display: none;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #1c238b;
+  color: #ffffff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.form-actions button[type="submit"]:hover {
+  background-color: #121761;
+}
+
+.btn-cancel {
+  background: none;
+  border: none;
+  color: #000;
+  text-decoration: underline;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
 }

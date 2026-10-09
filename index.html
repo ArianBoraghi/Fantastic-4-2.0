@@ -1,47 +1,78 @@
-<!-- Sektion 1: Deltagare & Måltider -->
-<div class="form-section">
-  <h2>1. DELTAGARE & MÅLTIDER</h2>
-  
-  <div class="form-field">
-    <label for="participants">Antal deltagare för specialkost</label>
-    <input type="number" id="participants" name="participants" value="0">
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Specialkost - Fulköpings bokmässa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrapper">
+
+    <header class="header">
+      <h1>Fulköpings bokmässa</h1>
+      <p>Beställning av specialkost till konferens</p>
+    </header>
+
+    <main class="order-form">
+      
+      <div class="info-banner" role="alert">
+        ⓘ Alla fält är obligatoriska. Antal anges som heltal, 0 eller fler.
+      </div>
+
+      <form id="orderForm" novalidate>
+        
+        <fieldset>
+          <legend>1. DELTAGARE & MÅLTIDER</legend>
+          <p class="fieldset-desc">(Ange 0 eller fler i fälten. Vegetariska och veganska portioner tillsammans får inte överstiga antalet deltagare)</p>
+          
+          <div class="form-field">
+            <label for="participants">Antal deltagare för specialkost</label>
+            <input type="number" id="participants" name="participants" min="0" step="1" required aria-describedby="mealError">
+          </div>
+
+          <div class="form-field">
+            <label for="vegetarian">Antal vegetariska portioner</label>
+            <input type="number" id="vegetarian" name="vegetarian" min="0" step="1" required aria-describedby="mealError">
+          </div>
+
+          <div class="form-field">
+            <label for="vegan">Antal veganska portioner</label>
+            <input type="number" id="vegan" name="vegan" min="0" step="1" required aria-describedby="mealError">
+          </div>
+
+          <div id="mealError" class="messages hidden" aria-live="polite"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>2. DATUM & LEVERANS</legend>
+          <p class="fieldset-desc">(Ange datum för leverans. Datum kan vara samma datum som konferens eller dagen innan, ej före eller efter dessa två datum.)</p>
+
+          <div class="form-field">
+            <label for="conferenceDate">Konferensdatum</label>
+            <input type="date" id="conferenceDate" name="conferenceDate" required aria-describedby="dateError">
+          </div>
+
+          <div class="form-field">
+            <label for="deliveryDate">Leveransdatum</label>
+            <input type="date" id="deliveryDate" name="deliveryDate" required aria-describedby="dateError">
+          </div>
+
+          <div id="dateError" class="messages hidden" aria-live="polite"></div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" id="submitBtn">Skicka beställning ➔</button>
+          <button type="button" class="btn-cancel" onclick="document.getElementById('orderForm').reset(); clearErrors();">Avbryt beställning</button>
+        </div>
+
+      </form>
+
+    </main>
+
   </div>
 
-  <div class="form-field">
-    <label for="vegetarian">Antal vegetariska portioner</label>
-    <input type="number" id="vegetarian" name="vegetarian" value="0">
-  </div>
-
-  <div class="form-field">
-    <label for="vegan">Antal veganportioner</label>
-    <input type="number" id="vegan" name="vegan" value="0">
-  </div>
-
-  <!-- Felmeddelande för Sektion 1 placeras HÄR -->
-  <div id="portion-error" class="error-container"></div>
-</div>
-
-<!-- Sektion 2: Datum & Leverans -->
-<div class="form-section">
-  <h2>2. DATUM & LEVERANS</h2>
-
-  <div class="form-field">
-    <label for="conferenceDate">Konferensdatum</label>
-    <input type="date" id="conferenceDate" name="conferenceDate">
-  </div>
-
-  <div class="form-field">
-    <label for="deliveryDate">Leveransdatum</label>
-    <input type="date" id="deliveryDate" name="deliveryDate">
-  </div>
-
-  <!-- Felmeddelande för Sektion 2 placeras HÄR -->
-  <div id="date-error" class="error-container"></div>
-</div>
-
-<div class="form-actions">
-  <button type="button" id="submitBtn">Skicka beställning ➔</button>
-</div>
-
-<!-- För generella fel eller framgångsmeddelande -->
-<div id="general-messages"></div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,156 +1,133 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const submitBtn = document.getElementById("submitBtn");
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('orderForm');
 
-  // Fält
-  const participantsInput = document.getElementById("participants");
-  const vegetarianInput = document.getElementById("vegetarian");
-  const veganInput = document.getElementById("vegan");
-  const conferenceDateInput = document.getElementById("conferenceDate");
-  const deliveryDateInput = document.getElementById("deliveryDate");
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        if (validateForm()) {
+            alert('Formuläret är giltigt! Beställningen har skickats.');
+            form.reset();
+        }
+    });
+});
 
-  // Felbehållare
-  const portionErrorDiv = document.getElementById("portion-error");
-  const dateErrorDiv = document.getElementById("date-error");
-  const generalMessagesDiv = document.getElementById("general-messages");
+function validateForm() {
+    clearErrors();
+    let isValid = true;
 
-  const allInputs = [
-    participantsInput,
-    vegetarianInput,
-    veganInput,
-    conferenceDateInput,
-    deliveryDateInput
-  ];
+    const participantsInput = document.getElementById('participants');
+    const vegInput = document.getElementById('vegetarian');
+    const veganInput = document.getElementById('vegan');
+    
+    const confInput = document.getElementById('conferenceDate');
+    const delInput = document.getElementById('deliveryDate');
 
-  submitBtn.addEventListener("click", () => {
-    // 1. Rensa alla tidigare fel
-    clearErrors(allInputs, [portionErrorDiv, dateErrorDiv, generalMessagesDiv]);
+    const participants = parseAndValidateInteger(participantsInput);
+    const veg = parseAndValidateInteger(vegInput);
+    const vegan = parseAndValidateInteger(veganInput);
 
-    let hasErrors = false;
-
-    // --- HJÄLPFUNKTIONER ---
-    function isValidNonNegativeInteger(val) {
-      if (val === null || val === undefined) return false;
-      const trimmed = val.trim();
-      if (trimmed === "") return false;
-      return /^\d+$/.test(trimmed);
+    if (participants === null || veg === null || vegan === null) {
+        showError('mealError', 'Alla fält för måltider måste fyllas i med icke-negativa heltal.', [participantsInput, vegInput, veganInput]);
+        isValid = false;
     }
-
-    // --- SEKTION 1: PORTIONSTAL (Individuell + Mellanfält) ---
-    const pVal = participantsInput.value;
-    const vegVal = vegetarianInput.value;
-    const veganVal = veganInput.value;
-
-    let portionErrors = [];
-
-    // Individuell validering
-    if (!isValidNonNegativeInteger(pVal)) {
-      portionErrors.push("Antal deltagare måste vara ett heltal (0 eller fler).");
-      participantsInput.classList.add("input-error");
-    }
-    if (!isValidNonNegativeInteger(vegVal)) {
-      portionErrors.push("Antal vegetariska portioner måste vara ett heltal (0 eller fler).");
-      vegetarianInput.classList.add("input-error");
-    }
-    if (!isValidNonNegativeInteger(veganVal)) {
-      portionErrors.push("Antal veganportioner måste vara ett heltal (0 eller fler).");
-      veganInput.classList.add("input-error");
-    }
-
-    // Mellanfältsvalidering (om alla tal var giltiga)
-    if (portionErrors.length === 0) {
-      const p = parseInt(pVal, 10);
-      const veg = parseInt(vegVal, 10);
-      const vegan = parseInt(veganVal, 10);
-
-      if (veg + vegan > p) {
-        portionErrors.push(`Portionerna (${veg + vegan}) är fler än antalet deltagare (${p}). Minska vegetariska eller veganska portioner.`);
-        vegetarianInput.classList.add("input-error");
-        veganInput.classList.add("input-error");
-      }
-    }
-
-    // Visa fel för Sektion 1 om det finns några
-    if (portionErrors.length > 0) {
-      showError(portionErrorDiv, portionErrors.join(" "));
-      hasErrors = true;
-    }
-
-
-    // --- SEKTION 2: DATUM (Individuell + Mellanfält) ---
-    const confStr = conferenceDateInput.value;
-    const delivStr = deliveryDateInput.value;
-
-    let dateErrors = [];
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Individuell validering
-    if (!confStr) {
-      dateErrors.push("Ange konferensdatum.");
-      conferenceDateInput.classList.add("input-error");
+    const confDate = parseDate(confInput.value);
+    const delDate = parseDate(delInput.value);
+
+    let dateHasIndividualError = false;
+
+    if (!confDate || !delDate) {
+        showError('dateError', 'Vänligen ange giltiga datum.', [confInput, delInput]);
+        isValid = false;
+        dateHasIndividualError = true;
     } else {
-      const confDate = new Date(confStr);
-      if (confDate < today) {
-        dateErrors.push("Konferensdatum måste vara i framtiden.");
-        conferenceDateInput.classList.add("input-error");
-      }
+        if (confDate <= today) {
+            markInvalid(confInput);
+            isValid = false;
+            dateHasIndividualError = true;
+        }
+        if (delDate <= today) {
+            markInvalid(delInput);
+            isValid = false;
+            dateHasIndividualError = true;
+        }
+        if (dateHasIndividualError) {
+            showError('dateError', 'Både konferens- och leveransdatum måste ligga i framtiden.');
+        }
     }
 
-    if (!delivStr) {
-      dateErrors.push("Ange leveransdatum.");
-      deliveryDateInput.classList.add("input-error");
-    } else {
-      const delivDate = new Date(delivStr);
-      if (delivDate < today) {
-        dateErrors.push("Leveransdatum måste vara i framtiden.");
-        deliveryDateInput.classList.add("input-error");
-      }
+    if (isValid && participants !== null && veg !== null && vegan !== null) {
+        const totalPortions = veg + vegan;
+        if (totalPortions > participants) {
+            const diff = totalPortions - participants;
+            showError(
+                'mealError', 
+                `Portionerna (${totalPortions}) är fler än antalet deltagare (${participants}). Minska vegetariska eller veganska portioner med minst ${diff}.`, 
+                [participantsInput, vegInput, veganInput]
+            );
+            isValid = false;
+        }
     }
 
-    // Mellanfältsvalidering för datum (om båda datum är ifyllda)
-    if (dateErrors.length === 0) {
-      const confDate = new Date(confStr);
-      const delivDate = new Date(delivStr);
+    if (isValid && !dateHasIndividualError) {
+        const diffTime = confDate - delDate;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-      confDate.setHours(0, 0, 0, 0);
-      delivDate.setHours(0, 0, 0, 0);
-
-      const dayBeforeConf = new Date(confDate);
-      dayBeforeConf.setDate(confDate.getDate() - 1);
-
-      const isSameDay = delivDate.getTime() === confDate.getTime();
-      const isDayBefore = delivDate.getTime() === dayBeforeConf.getTime();
-
-      if (!isSameDay && !isDayBefore) {
-        dateErrors.push("Leveransdatum måste vara samma datum som konferens eller dagen innan.");
-        deliveryDateInput.classList.add("input-error");
-      }
+        if (diffDays < 0 || diffDays > 1) {
+            showError(
+                'dateError', 
+                'Leveransdatum måste vara samma datum som konferens eller dagen innan.', 
+                [confInput, delInput]
+            );
+            isValid = false;
+        }
     }
 
-    // Visa fel för Sektion 2 om det finns några
-    if (dateErrors.length > 0) {
-      showError(dateErrorDiv, dateErrors.join(" "));
-      hasErrors = true;
+    return isValid;
+}
+
+function parseAndValidateInteger(inputElement) {
+    const value = inputElement.value.trim();
+    if (value === '' || !/^\d+$/.test(value)) {
+        markInvalid(inputElement);
+        return null;
     }
-
-
-    // --- SLUTRESULTAT ---
-    if (!hasErrors) {
-      generalMessagesDiv.innerHTML = `
-        <div class="success-box">
-          ✅ Beställningen är giltig och har skickats!
-        </div>
-      `;
+    const num = parseInt(value, 10);
+    if (num < 0) {
+        markInvalid(inputElement);
+        return null;
     }
-  });
+    return num;
+}
 
-  function clearErrors(inputs, containers) {
-    inputs.forEach(input => input.classList.remove("input-error"));
-    containers.forEach(container => container.innerHTML = "");
-  }
+function parseDate(dateString) {
+    if (!dateString) return null;
+    const date = new Date(dateString);
+    date.setHours(0, 0, 0, 0);
+    return date;
+}
 
-  function showError(container, message) {
-    container.innerHTML = `<div class="error-box" role="alert">${message}</div>`;
-  }
-});
+function markInvalid(inputElement) {
+    inputElement.classList.add('is-invalid');
+}
+
+function showError(containerId, message, inputElements = []) {
+    const errorBox = document.getElementById(containerId);
+    errorBox.innerHTML = `⟐ ${message}`;
+    errorBox.classList.remove('hidden');
+
+    inputElements.forEach(input => {
+        if (input) markInvalid(input);
+    });
+}
+
+function clearErrors() {
+    document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+    document.querySelectorAll('.messages').forEach(el => {
+        el.classList.add('hidden');
+        el.textContent = '';
+    });
+}
