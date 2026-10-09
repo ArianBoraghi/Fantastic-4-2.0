@@ -142,4 +142,4 @@ function showError(containerId, message, inputElements = []) {
     });
 }
 
-function clearErrors() {
+function clearErrors() 
