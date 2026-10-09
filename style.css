@@ -1,36 +1,176 @@
-/* Rätta till selektorn överst */
+/* Återställning och box-sizing */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Stil för input-fält som har valideringsfel (röd ram) */
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  line-height: 1.5;
+}
+
+.wrapper {
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Header enligt nya Figma-designen (Mörkblå) */
+.header {
+  background-color: #0d3baf; /* Hög kontrast */
+  color: #ffffff;
+  padding: 1.75rem 2rem;
+  border-radius: 8px 8px 0 0;
+}
+
+.header h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.header p {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #dbeaff;
+}
+
+/* Formulärkort */
+.order-form {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Avsnittsrubriker */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.25rem;
+}
+
+.section-desc {
+  font-size: 0.85rem;
+  color: #4b5563;
+  margin-bottom: 1.25rem;
+}
+
+/* Formulärfält */
+.form-field {
+  margin-bottom: 1.25rem;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #1f2937;
+  margin-bottom: 0.4rem;
+}
+
+.form-field input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  font-size: 1rem;
+  border: 1px solid #9ca3af; /* God kontrast mot vit bakgrund */
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #111827;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Tillgänglig fokus-markering för tangentbordsnavigering (Del 3) */
+.form-field input:focus,
+.form-actions button:focus {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Röd ram för felaktiga fält */
 .form-field input.input-error {
-  border: 1px solid #d93025 !important;
-  background-color: #fff8f8;
+  border: 2px solid #dc2626 !important;
+  background-color: #fef2f2;
 }
 
-/* Stil för felmeddelanderutan (#messages) enligt Figma-designen */
+/* Knappstil (Mörkblå med tillräcklig kontrast) */
+.form-actions {
+  margin-top: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.form-actions button {
+  background-color: #0d3baf;
+  color: #ffffff;
+  border: none;
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 25px; /* Rundad knapp som i Figma */
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  transition: background-color 0.2s;
+}
+
+.form-actions button:hover {
+  background-color: #092c85;
+}
+
+/* Fel- och framgångsmeddelanden */
 .messages {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
+/* Felruta enligt Figma Situation A/B */
 .error-box {
-  background-color: #fce8e6;
-  border: 1px solid #f5c2c7;
-  color: #d93025;
-  padding: 0.8rem 1rem;
+  background-color: #fdeded;
+  border: 1px solid #f87171;
+  color: #991b1b;
+  padding: 0.85rem 1rem;
   border-radius: 6px;
   font-size: 0.9rem;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
 }
 
-/* Varningsikonen i felmeddelandet */
 .error-box::before {
   content: "⚠️";
   font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Grön framgångsruta vid godkänd validering */
+.success-box {
+  background-color: #edf7ed;
+  border: 1px solid #86efac;
+  color: #166534;
+  padding: 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 500;
+}
+
+.success-box::before {
+  content: "✅";
+  font-size: 1.1rem;
 }
