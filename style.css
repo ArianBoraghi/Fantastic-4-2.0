@@ -103,10 +103,24 @@ legend {
   font-size: 0.9rem;
   font-weight: bold;
   margin-top: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .messages.hidden {
   display: none;
+}
+
+.error-icon {
+  display: inline-block;
+  color: #d32f2f;
+}
+
+.error-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
 }
 
 .form-actions {
