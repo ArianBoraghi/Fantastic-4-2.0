@@ -1,7 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('orderForm');
-    const cancelBtn = document.getElementById('cancelBtn'); // Hämta avbryt-knappen
- 
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    // Tillåt enbart siffror (0-9) och styr-tangenter i nummerfälten
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('keydown', (e) => {
+            const allowedKeys = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+
+            // Tillåt navigerings- och kontrolltangenter (t.ex. Ctrl+A, Ctrl+C)
+            if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+                return;
+            }
+
+            // Stoppa allt som inte är en enskild siffra 0-9
+            if (!/^[0-9]$/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+    });
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         if (validateForm()) {
@@ -9,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
             form.reset();
         }
     });
- 
-    // Lyssna på klick för att rensa formulär och felmeddelanden (Separation of Concerns)
+
     if (cancelBtn) {
         cancelBtn.addEventListener('click', () => {
             form.reset();
@@ -162,14 +178,4 @@ function clearErrors() {
         el.classList.add('hidden');
         el.innerHTML = '';
     });
-
-    // Förhindra att e, E, +, -, . och , knappas in i nummerfält
-document.querySelectorAll('input[type="number"]').forEach(input => {
-    input.addEventListener('keydown', (e) => {
-        if (['e', 'E', '+', '-', '.', ','].includes(e.key)) {
-            e.preventDefault();
-        }
-    });
-});
-
 }
