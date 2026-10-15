@@ -162,4 +162,14 @@ function clearErrors() {
         el.classList.add('hidden');
         el.innerHTML = '';
     });
+
+    // Förhindra att e, E, +, -, . och , knappas in i nummerfält
+document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('keydown', (e) => {
+        if (['e', 'E', '+', '-', '.', ','].includes(e.key)) {
+            e.preventDefault();
+        }
+    });
+});
+
 }
