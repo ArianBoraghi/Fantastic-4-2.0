@@ -92,13 +92,13 @@ legend {
 }
 
 .form-field input.is-invalid {
-  border: 2px solid #d32f2f;
+  border: 2px solid #961515;
 }
 
 .messages {
-  background-color: #fdeaea;
-  border: 1px solid #d32f2f;
-  color: #d32f2f;
+  background-color: #ffdfe0;
+  border: 1px solid #961515;
+  color: #961515;
   padding: 12px;
   font-size: 0.9rem;
   font-weight: bold;
@@ -114,7 +114,7 @@ legend {
 
 .error-icon {
   display: inline-block;
-  color: #d32f2f;
+  color: #961515;
   flex-shrink: 0;
 }
 
