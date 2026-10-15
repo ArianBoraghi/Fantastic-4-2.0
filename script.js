@@ -1,15 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('orderForm');
-
+    const cancelBtn = document.getElementById('cancelBtn'); // Hämta avbryt-knappen
+ 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
         if (validateForm()) {
             alert('Formuläret är giltigt! Beställningen har skickats.');
             form.reset();
         }
     });
+ 
+    // Lyssna på klick för att rensa formulär och felmeddelanden (Separation of Concerns)
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', () => {
+            form.reset();
+            clearErrors();
+        });
+    }
 });
+
 
 function validateForm() {
     clearErrors();
